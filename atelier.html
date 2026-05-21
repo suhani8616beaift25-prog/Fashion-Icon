@@ -1,19 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Atelier · Fashion Icon</title>
-
-  <link rel="stylesheet" href="style.css">
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atelier · Fashion Icon</title>
+<link rel="stylesheet" href="style.css">
 </head>
-
+<script defer src="main.js"></script>
 <body>
-
   <!-- NAVBAR -->
 
   <nav class="nav">
@@ -41,7 +35,7 @@
     <img
       class="atelier-bg"
       src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=1800&q=90"
-      alt="Fashion Atelier"
+      alt="Camera Atelier"
     >
 
     <div class="atelier-overlay"></div>
@@ -49,20 +43,21 @@
     <div class="atelier-content">
 
       <div class="eyebrow fade-up">
-        PRIVATE ATELIER · EXCLUSIVE ACCESS
+        AI STYLE CAMERA · FASHION ICON
       </div>
 
       <h1 class="fade-up delay-1">
 
-        Enter The<br>
-        World Of <span>Couture</span>
+        Discover<br>
+        Your <span>Luxury</span><br>
+        Style
 
       </h1>
 
       <p class="fade-up delay-2">
 
-        Experience luxury editorial archives, timeless runway
-        aesthetics and the future of iconic fashion culture.
+        Enable your camera and explore fashion recommendations
+        inspired by editorial couture aesthetics.
 
       </p>
 
@@ -70,51 +65,40 @@
 
   </section>
 
-  <!-- LOGIN SECTION -->
+  <!-- CAMERA SECTION -->
 
-  <section class="atelier-section">
+  <section class="camera-section">
 
-    <div class="atelier-container">
+    <div class="camera-container">
 
       <!-- LEFT -->
 
-      <div class="atelier-info">
+      <div class="camera-info">
 
         <div class="eyebrow">
-          MEMBERS ONLY
+          PERSONAL STYLE AI
         </div>
 
         <h2>
-          The Private Editorial Experience
+          Your Digital Fashion Atelier
         </h2>
 
         <p>
 
-          Unlock curated collections, luxury editorials,
-          couture inspirations and exclusive fashion insights.
+          Discover silhouettes, luxury styling ideas
+          and timeless fashion inspiration tailored
+          to your aesthetic profile.
 
         </p>
 
         <div class="atelier-box">
 
           <h3>
-            Exclusive Access
+            Camera Styling
           </h3>
 
           <span>
-            Fashion Week Archives · Editorial Collections
-          </span>
-
-        </div>
-
-        <div class="atelier-box">
-
-          <h3>
-            Premium Experience
-          </h3>
-
-          <span>
-            Luxury Aesthetics · Timeless Fashion Culture
+            Personalized luxury styling experience
           </span>
 
         </div>
@@ -123,17 +107,47 @@
 
       <!-- RIGHT -->
 
-      <form class="atelier-form">
+      <div class="camera-box">
 
-        <input type="email" placeholder="Your Email">
+        <video id="cameraFeed" autoplay playsinline></video>
 
-        <input type="password" placeholder="Password">
+        <div class="camera-buttons">
 
-        <button type="submit">
-          Enter Atelier
+          <button id="enableCam">
+            Enable Camera
+          </button>
+
+          <button id="disableCam">
+            Disable Camera
+          </button>
+
+        </div>
+
+        <div class="shape-select">
+
+          <label for="shape">
+            Select your body shape
+          </label>
+
+          <select id="shape">
+
+            <option value="hourglass">Hourglass</option>
+            <option value="pear">Pear</option>
+            <option value="rectangle">Rectangle</option>
+            <option value="apple">Apple</option>
+            <option value="inverted">Inverted Triangle</option>
+
+          </select>
+
+        </div>
+
+        <button id="showAdvice" class="style-btn">
+          Show My Style
         </button>
 
-      </form>
+        <p class="advice" id="styleAdvice"></p>
+
+      </div>
 
     </div>
 
@@ -204,5 +218,98 @@
 
   </footer>
 
+  <!-- SCRIPT -->
+
+  <script>
+
+    const video = document.getElementById("cameraFeed");
+
+    let stream;
+    let isCameraOn = false;
+
+    // ENABLE CAMERA
+
+    document.getElementById("enableCam").addEventListener("click", async () => {
+
+      try {
+
+        stream = await navigator.mediaDevices.getUserMedia({
+          video:true
+        });
+
+        video.srcObject = stream;
+
+        isCameraOn = true;
+
+      } catch(err){
+
+        alert("Camera permission denied or unavailable.");
+
+      }
+
+    });
+
+    // DISABLE CAMERA
+
+    document.getElementById("disableCam").addEventListener("click", () => {
+
+      if(stream){
+
+        stream.getTracks().forEach(track => track.stop());
+
+        video.srcObject = null;
+
+        isCameraOn = false;
+
+      }
+
+    });
+
+    // STYLE AI
+
+    document.getElementById("showAdvice").addEventListener("click", () => {
+
+      if(!isCameraOn){
+
+        alert("Please enable camera first.");
+        return;
+
+      }
+
+      const shape = document.getElementById("shape").value;
+
+      let advice = "";
+
+      switch(shape){
+
+        case "hourglass":
+          advice = "Luxury fitted silhouettes and waist-focused couture will complement your proportions beautifully.";
+          break;
+
+        case "pear":
+          advice = "Structured shoulders, elegant jackets and statement tops will balance your silhouette.";
+          break;
+
+        case "rectangle":
+          advice = "Layered luxury looks and soft draping create elegant curves and movement.";
+          break;
+
+        case "apple":
+          advice = "Flowing editorial gowns and monochrome styling create a refined luxury aesthetic.";
+          break;
+
+        case "inverted":
+          advice = "Wide-leg trousers and sculpted lower silhouettes create perfect visual harmony.";
+          break;
+
+      }
+
+      document.getElementById("styleAdvice").textContent = advice;
+
+    });
+    
+
+  </script>
+  
 </body>
 </html>

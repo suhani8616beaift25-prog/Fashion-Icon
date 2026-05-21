@@ -112,15 +112,30 @@
 
       <!-- RIGHT -->
 
-      <form class="contact-form-premium">
+      <form class="contact-form-premium" id="contactForm">
 
-        <input type="text" placeholder="Your Name">
+        <input 
+          type="text" 
+          id="name" 
+          placeholder="Your Name"
+        >
 
-        <input type="email" placeholder="Your Email">
+        <input 
+          type="email" 
+          id="email" 
+          placeholder="Your Email"
+        >
 
-        <input type="text" placeholder="Subject">
+        <input 
+          type="text" 
+          id="subject" 
+          placeholder="Subject"
+        >
 
-        <textarea placeholder="Your Message"></textarea>
+        <textarea 
+          id="message" 
+          placeholder="Your Message"
+        ></textarea>
 
         <button type="submit">
           Send Message
@@ -196,6 +211,69 @@
     </div>
 
   </footer>
+
+  <!-- JAVASCRIPT -->
+
+  <script>
+
+    const form = document.getElementById("contactForm");
+
+    form.addEventListener("submit", function(event) {
+
+      // Prevent page refresh
+      event.preventDefault();
+
+      // Get values
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const subject = document.getElementById("subject").value.trim();
+      const message = document.getElementById("message").value.trim();
+
+      // Email validation regex
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      // Validation
+
+      if (name === "") {
+        alert("Please enter your name.");
+        return;
+      }
+
+      if (email === "") {
+        alert("Please enter your email.");
+        return;
+      }
+
+      if (!emailPattern.test(email)) {
+        alert("Please enter a valid email address.");
+        return;
+      }
+
+      if (subject === "") {
+        alert("Please enter the subject.");
+        return;
+      }
+
+      if (message === "") {
+        alert("Please enter your message.");
+        return;
+      }
+
+      // Success message
+      alert("Message sent successfully!");
+
+      // Console log
+      console.log("Name:", name);
+      console.log("Email:", email);
+      console.log("Subject:", subject);
+      console.log("Message:", message);
+
+      // Reset form
+      form.reset();
+
+    });
+
+  </script>
 
 </body>
 </html>
